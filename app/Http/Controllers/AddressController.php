@@ -3,21 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreAddressRequest;
-use App\Repositories\Contracts\AddressRepositoryInterface;
+use App\Http\Resources\AddressResource;
+use App\Repositories\Eloquent\AddressRepository;
 use Illuminate\Http\JsonResponse;
 
 class AddressController extends Controller
 {
     public function __construct(
-        private AddressRepositoryInterface $addressRepo
+        private AddressRepository $addressRepo
     ) {}
 
     public function store(StoreAddressRequest $request): JsonResponse
     {
-        $data = $request->validated();
+        $address = $this->addressRepo->create($request->validated());
 
-        $address = $this->addressRepo->create($data);
-
-        return response()->json($address, 201);
+        return response()->json(new AddressResource($address), 201);
     }
 }

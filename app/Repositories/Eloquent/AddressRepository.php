@@ -34,4 +34,3 @@ class AddressRepository implements AddressRepositoryInterface
         return $address->delete();
     }
 }
-A

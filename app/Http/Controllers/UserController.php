@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AssignPermissionRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
+use App\Http\Resources\UserResource;
 use App\Services\Eloquent\PermissionService;
 use App\Services\Eloquent\UserService;
 
@@ -15,18 +16,18 @@ class UserController extends Controller
 
     public function index()
     {
-        return response()->json($this->service->getAll());
+        return UserResource::collection($this->service->getAll());
     }
 
     public function store(StoreUserRequest $request)
     {
         $user = $this->service->create($request->validated());
-        return response()->json($user, 201);
+        return response()->json(new UserResource($user), 201);
     }
 
     public function show(int $id)
     {
-        return response()->json($this->service->find($id));
+        return new UserResource($this->service->find($id));
     }
 
     public function update(UpdateUserRequest $request, int $id)
@@ -41,9 +42,10 @@ class UserController extends Controller
         return response()->noContent();
     }
 
-    public function assignPermission(AssignPermissionRequest $req, $id)
+    public function assignPermission(AssignPermissionRequest $request)
     {
-        $this->permissionService->assignRoles($id, $req->roles);
+        $user = $this->service->find($request->user_id);
+        $this->permissionService->syncRoles($user, $request->roles);
         return response()->noContent();
     }
 }

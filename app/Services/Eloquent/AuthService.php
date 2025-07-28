@@ -13,10 +13,10 @@ class AuthService implements AuthServiceInterface
 
     public function login(array $credentials)
     {
-        if (!$token = JWTAuth::attempt($credentials)) {
-            abort(401, 'Unauthorized');
-        }
-        return $token;
+        // if (!$token = JWTAuth::attempt($credentials)) {
+        //     abort(401, 'Unauthorized');
+        // }
+        // return $token;
     }
 }
 

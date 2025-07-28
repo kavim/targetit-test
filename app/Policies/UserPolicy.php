@@ -71,4 +71,9 @@ class UserPolicy
     {
         return false;
     }
+
+    public function assignPermission(User $user): bool
+    {
+        return $user->permissions()->where('permission', 'admin')->exists();
+    }
 }
