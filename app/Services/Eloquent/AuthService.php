@@ -2,21 +2,42 @@
 
 namespace App\Services\Eloquent;
 
-use App\Repositories\Contracts\UserRepositoryInterface;
-use App\Services\Contracts\AuthServiceInterface;
-use Tymon\JWTAuth\Facades\JWTAuth;
-use App\Http\Requests\LoginRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 
-class AuthService implements AuthServiceInterface
+class AuthService
 {
-    public function __construct(private UserRepositoryInterface $repo){}
-
-    public function login(array $credentials)
+    public function register(array $data): ?User
     {
-        // if (!$token = JWTAuth::attempt($credentials)) {
-        //     abort(401, 'Unauthorized');
-        // }
-        // return $token;
+        $user = User::create([
+            'name'     => $data['name'],
+            'email'    => $data['email'],
+            'phone'    => $data['phone'],
+            'cpf'      => $data['cpf'],
+            'password' => bcrypt($data['password']),
+        ]);
+
+        $user->token = $user->createToken('api-token')->plainTextToken;
+        $user->load('permissions');
+
+        return $user;
+    }
+
+    public function login(array $data): ?User
+    {
+        $user = User::where('email', $data['email'])->first();
+
+        if (! $user || ! Hash::check($data['password'], $user->password)) {
+            return null;
+        }
+
+        $user->token = $user->createToken('api-token')->plainTextToken;
+
+        return $user;
+    }
+
+    public function logout($user): void
+    {
+        $user->tokens()->delete();
     }
 }
-
