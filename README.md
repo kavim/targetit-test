@@ -4,6 +4,15 @@ Este projeto consiste em uma API RESTful desenvolvida com Laravel para gerenciar
 
 ---
 
+## 🎥 Demonstração
+
+[![Assista à demonstração no YouTube](https://img.youtube.com/vi/8PPVzs_n2j8/maxresdefault.jpg)](https://www.youtube.com/watch?v=8PPVzs_n2j8)
+
+Assista no YouTube: [Clique aqui](https://www.youtube.com/watch?v=8PPVzs_n2j8)
+
+
+---
+
 ## ✅ Funcionalidades
 
 - 🔐 Autenticação com JWT (Laravel Sanctum)
