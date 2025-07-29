@@ -6,7 +6,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Resources\AuthResource;
 use App\Services\Eloquent\AuthService;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
