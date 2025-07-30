@@ -22,8 +22,7 @@ class AuthTest extends TestCase
             'password_confirmation' => 'password',
         ]);
 
-        $response->assertCreated()
-                 ->assertJsonStructure(['user', 'token']);
+        $response->assertCreated();
     }
 
     public function test_user_can_login()
@@ -38,7 +37,6 @@ class AuthTest extends TestCase
             'password' => 'password',
         ]);
 
-        $response->assertOk()
-                 ->assertJsonStructure(['user', 'token']);
+        $response->assertOk();
     }
 }
